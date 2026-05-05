@@ -1,0 +1,12 @@
+from sqlalchemy.orm import Mapped, mapped_column
+
+from src.database import Base
+
+
+class CityORM(Base):
+    __tablename__ = "city"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str]
+    latitude: Mapped[float]
+    longitude: Mapped[float]
