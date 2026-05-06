@@ -19,6 +19,12 @@ class CityRepository:
             return None
         return self.schema.model_validate(model)
 
+    async def get_all(self) -> list[City]:
+        query = select(self.model)
+        result = await self.session.execute(query)
+        models = result.scalars().all()
+        return [self.schema.model_validate(model) for model in models]
+
     async def add(self, city: CityDTO) -> City | None:
         add_city_stmt = (insert(self.model)
                          .values(**city.model_dump())

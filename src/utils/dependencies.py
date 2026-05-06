@@ -8,8 +8,24 @@ from src.utils.db_manager import DBManager
 
 
 class CoordinateParams(BaseModel):
-    latitude: Annotated[float, Query()]
-    longitude: Annotated[float, Query()]
+    latitude: Annotated[
+        float,
+        Query(
+            ge=-90,
+            le=90,
+            description="Широта точки, относительно которой нужно искать города",
+            examples=[55.7558],
+        ),
+    ]
+    longitude: Annotated[
+        float,
+        Query(
+            ge=-180,
+            le=180,
+            description="Долгота точки, относительно которой нужно искать города",
+            examples=[37.6173],
+        ),
+    ]
 
 
 CoordinateDep = Annotated[CoordinateParams, Depends()]

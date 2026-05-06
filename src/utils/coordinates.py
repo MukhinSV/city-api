@@ -1,4 +1,5 @@
 import aiohttp
+import math
 
 from src.config import settings
 
@@ -32,3 +33,19 @@ async def get_coordinates(city_name: str) -> tuple | None:
         return None
 
     return float(result["lat"]), float(result["lon"])
+
+
+def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    R = 6371
+
+    lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
+
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+
+    a = math.sin(dlat / 2)**2 + \
+        math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2)**2
+
+    c = 2 * math.asin(math.sqrt(a))
+
+    return R * c
